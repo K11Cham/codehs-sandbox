@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · CodeHS Sandbox</title>
+<meta name="description" content="{{DESC}}">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-slug="{{SLUG}}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="CodeHS Sandbox home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2" y="2" width="8" height="8"/><rect x="6" y="6" width="8" height="8"/><path d="M2 2l4 4M10 2l4 4M2 10l4 4M10 10l4 4"/></svg></span>
+      codehs-sandbox
+    </a>
+    <nav aria-label="Programs">
+      <a class="hide-sm" href="funni-cube"{{CUR_funni-cube}}>funni cube</a>
+      <a class="hide-sm" href="overengineered-calculatoe"{{CUR_overengineered-calculatoe}}>calculator</a>
+      <a class="hide-sm" href="bucketballs"{{CUR_bucketballs}}>bucketballs</a>
+      <button class="theme" id="theme" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <p class="crumbs"><a href="./">All programs</a> / {{TITLE}}</p>
+  <div class="ph">
+    <h1>{{TITLE}}</h1>
+    <p class="lede">{{TAGLINE}}</p>
+    <ul class="meta" id="meta"></ul>
+  </div>
+
+{{CONTENT}}
+
+  <section class="block" aria-labelledby="src-h">
+    <h2 id="src-h">Original source</h2>
+    <p class="sub">The file exactly as saved on CodeHS, read-only. <a id="raw" href="#">Open the raw file</a>.</p>
+    <div class="hash" id="hash" aria-live="polite">Checking SHA-256…</div>
+    <pre class="code" tabindex="0" aria-label="Source code of {{TITLE}}"><code id="code"></code></pre>
+  </section>
+
+  <section class="block" id="evidence" aria-labelledby="ev-h">
+    <h2 id="ev-h">Evidence: CodeHS history</h2>
+    <p class="sub">Screenshots of CodeHS’s “My Code History” page, which logs every save with a timestamp and the reason for it (autosave, run, paste).</p>
+    <div class="stats" id="stats"></div>
+    <p class="callout" id="provenance"></p>
+    <ul class="shots" id="shots"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Program written by Kylar on CodeHS. Playground and runtime built with AI assistance; neither CodeHS’s code nor its library is included.</p>
+    <p>Source and evidence: <a href="https://github.com/K11Cham/codehs-sandbox">github.com/K11Cham/codehs-sandbox</a></p>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerpolicy="no-referrer" data-manual></script>
+<script src="assets/data.js"></script>
+<script src="assets/program.js"></script>
+</body>
+</html>

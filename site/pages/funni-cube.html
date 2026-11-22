@@ -1,0 +1,25 @@
+<!-- meta: title=funni cube | desc=A 4D tesseract renderer Kylar wrote by hand on CodeHS: rotation in 4D planes and a double perspective projection, running live. -->
+  <section class="run" aria-labelledby="run-h">
+    <div class="stage">
+      <h2 id="run-h" class="skip">Run funni cube</h2>
+      <iframe id="screen" class="screen" title="funni cube running live: a rotating four-dimensional tesseract" sandbox="allow-scripts"></iframe>
+      <div class="toolbar">
+        <span class="hint">Runs on its own, no input.</span>
+        <button class="btn" id="restart" type="button">Restart</button>
+      </div>
+    </div>
+    <div class="prose">
+      <h2>What it does</h2>
+      <p>It draws a <strong>tesseract</strong> (a 4D hypercube) as 32 white lines on a black canvas and keeps it turning. What looks like a small cube inside a big one is really two cubes sitting at <code>w = −1</code> and <code>w = +1</code>, joined along the fourth axis. When the rotation reaches into <code>w</code>, they swap places and turn inside out.</p>
+
+      <h2>The interesting idea</h2>
+      <p><strong>Rotation happens in planes, not around axes.</strong> In 2D you rotate in the one plane there is. In 3D, “around the Y axis” really means “in the X–Z plane”. In 4D there are six planes. The program rotates a point in one pair of coordinates <code>(i, j)</code> and leaves the others alone, and chains three of these each frame:</p>
+      <ul>
+        <li><code>rotate(point, 0, 2, angleY)</code>: the X–Z plane, an ordinary 3D spin</li>
+        <li><code>rotate(…, 1, 2, angleX)</code>: the Y–Z plane</li>
+        <li><code>rotate(…, 1, 3, angleYW)</code>: the Y–W plane, the one that goes into the fourth dimension</li>
+      </ul>
+      <p><strong>Then it projects twice.</strong> <code>toPoint()</code> divides x, y and z by <code>w + wDistance</code>, which gives a perspective view of 4D squashed into 3D. Then it divides by <code>z + camDistance</code> for ordinary 3D-to-screen perspective. That is why the cube at <code>w = −1</code> looks bigger: it is “closer” in w.</p>
+      <p>Each frame it calls <code>removeAll()</code>, adds a fresh black background rectangle and rebuilds all 32 <code>Line</code>s. It runs on a 10 ms <code>setTimer</code>, which CodeHS caps at one tick per display frame.</p>
+    </div>
+  </section>

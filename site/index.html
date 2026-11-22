@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeHS Sandbox · Kylar</title>
+<meta name="description" content="Three programs Kylar wrote by hand on CodeHS (a 4D tesseract renderer, an arithmetic interpreter and a projectile game), running live in the browser with their full edit history as evidence.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="CodeHS Sandbox home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2" y="2" width="8" height="8"/><rect x="6" y="6" width="8" height="8"/><path d="M2 2l4 4M10 2l4 4M2 10l4 4M10 10l4 4"/></svg></span>
+      codehs-sandbox
+    </a>
+    <nav aria-label="Programs">
+      <a class="hide-sm" href="funni-cube">funni cube</a>
+      <a class="hide-sm" href="overengineered-calculatoe">calculator</a>
+      <a class="hide-sm" href="bucketballs">bucketballs</a>
+      <button class="theme" id="theme" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="title">
+    <div>
+      <p class="eyebrow">Hand-written · CodeHS · 2026</p>
+      <h1 id="title">Code Kylar wrote <em>by hand</em>, running live.</h1>
+      <p class="lede">These three programs come from Kylar’s CodeHS sandbox: a 4D tesseract renderer, a lexer/parser/interpreter for arithmetic, and a projectile basketball game. Each one runs here unchanged, next to its original source and CodeHS’s own edit history.</p>
+      <ul class="split" aria-label="What is hand-written and what is not">
+        <li><code>programs/</code><span>Hand-written by Kylar on CodeHS, byte-for-byte as saved there. Each page shows a SHA-256 check.</span></li>
+        <li><code>site/</code><span>This playground and the small CodeHS-compatible runtime were built with AI assistance.</span></li>
+      </ul>
+    </div>
+    <figure class="hero-stage">
+      <div class="frame"><iframe src="runner?p=funni-cube" title="funni cube running live: a rotating four-dimensional tesseract" sandbox="allow-scripts" loading="eager"></iframe></div>
+      <figcaption>funni cube, live: a hypercube turning in three planes, one of them into the fourth dimension.</figcaption>
+    </figure>
+  </section>
+
+  <h2 class="section-title">The programs</h2>
+  <ul class="cards">
+    <li class="card">
+      <div class="chips"><span class="chip accent">4D geometry</span><span class="chip">JS Graphics</span></div>
+      <h3><a href="funni-cube">funni cube</a></h3>
+      <p>A tesseract drawn as wireframe lines, spinning through three rotation planes at once.</p>
+      <p class="idea">Idea: rotate a point in any pair of axes, including the fourth, then project 4D → 3D → 2D with two perspective divides.</p>
+      <span class="go" aria-hidden="true">Run it →</span>
+    </li>
+    <li class="card">
+      <div class="chips"><span class="chip accent">Compilers</span><span class="chip">JS Console</span></div>
+      <h3><a href="overengineered-calculatoe">overengineered-calculatoe</a></h3>
+      <p>Type an expression and it is tokenized, parsed into a tree and evaluated. Try <code>2^3^2</code>.</p>
+      <p class="idea">Idea: recursive descent, with one function per precedence level and a right-associative <code>^</code>.</p>
+      <span class="go" aria-hidden="true">Try it →</span>
+    </li>
+    <li class="card">
+      <div class="chips"><span class="chip accent">Physics</span><span class="chip">JS Graphics</span></div>
+      <h3><a href="bucketballs">bucketballs</a></h3>
+      <p>“Crappy Basketball”: set the angle and power, shoot, and hit a bobbing hoop before the 10-second clock runs out.</p>
+      <p class="idea">Idea: step-by-step projectile physics with lossy bounces and hit-testing against the scene.</p>
+      <span class="go" aria-hidden="true">Play it →</span>
+    </li>
+  </ul>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Programs written by Kylar on CodeHS, Oct–Nov 2026. Playground and runtime built with AI assistance; neither CodeHS’s code nor its library is included.</p>
+    <p>Source and evidence: <a href="https://github.com/K11Cham/codehs-sandbox">github.com/K11Cham/codehs-sandbox</a></p>
+  </div>
+</footer>
+<script src="assets/data.js"></script>
+<script>
+  // theme toggle only (the program pages use program.js)
+  (function () {
+    var btn = document.getElementById('theme'), saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    if (saved) document.documentElement.dataset.theme = saved;
+    function isDark() { var t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
+    function label() { var d = isDark(); btn.textContent = d ? 'Light' : 'Dark'; btn.setAttribute('aria-label', d ? 'Switch to light theme' : 'Switch to dark theme'); }
+    label();
+    btn.addEventListener('click', function () { var n = isDark() ? 'light' : 'dark'; document.documentElement.dataset.theme = n; try { localStorage.setItem('theme', n); } catch (e) {} label(); });
+  })();
+</script>
+</body>
+</html>

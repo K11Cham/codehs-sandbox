@@ -1,0 +1,28 @@
+<!-- meta: title=bucketballs | desc=Crappy Basketball: a projectile-physics game Kylar wrote by hand on CodeHS. Aim, set the power and hit a moving hoop, live in the browser. -->
+  <section class="run" aria-labelledby="run-h">
+    <div class="stage">
+      <h2 id="run-h" class="skip">Play bucketballs</h2>
+      <iframe id="screen" class="screen" title="bucketballs game. Click Play, then use A and D to aim, W and S to set power, and Space to shoot." sandbox="allow-scripts"></iframe>
+      <div class="toolbar">
+        <span class="hint">Click <b>Play</b> on the canvas, then use the keys.</span>
+        <button class="btn" id="restart" type="button">Restart</button>
+      </div>
+      <div class="pad touch-only" aria-label="On-screen keys">
+        <button type="button" class="w" data-key="w" data-code="KeyW" aria-label="W, more power" aria-pressed="false">W</button>
+        <button type="button" class="a" data-key="a" data-code="KeyA" aria-label="A, aim up" aria-pressed="false">A</button>
+        <button type="button" class="s" data-key="s" data-code="KeyS" aria-label="S, less power" aria-pressed="false">S</button>
+        <button type="button" class="d" data-key="d" data-code="KeyD" aria-label="D, aim down" aria-pressed="false">D</button>
+        <button type="button" class="space" data-key=" " data-code="Space" aria-label="Space, shoot" aria-pressed="false">Space · shoot</button>
+      </div>
+    </div>
+    <div class="prose">
+      <h2>How to play</h2>
+      <p>Click <strong>Play</strong>. <kbd>A</kbd>/<kbd>D</kbd> swing the aiming line, <kbd>W</kbd>/<kbd>S</kbd> change the launch speed (20–100), and <kbd>Space</kbd> shoots. Hit the red hoop on the right as it bobs up and down. You have 10 seconds after shooting before the game decides you’ve lost.</p>
+
+      <h2>The interesting idea</h2>
+      <p><strong>Physics in small steps.</strong> Every tick, <code>projectilePhysics()</code> moves the ball by its velocity times <code>dt</code>, then adds gravity to the vertical velocity (Euler integration). The launch velocity comes from the angle with <code>speed·cos θ</code> and <code>−speed·sin θ</code>. The minus sign is there because screen y points down.</p>
+      <p><strong>Collision by asking the scene.</strong> <code>collide()</code> uses <code>getElementAt</code> to see what is just below the ball and whether the ball is inside the hoop. It <code>remove</code>s the ball first and <code>add</code>s it back afterwards so the ball can’t detect itself. Bounces off the floor, walls and ceiling reverse velocity and keep 75% of it.</p>
+      <p><strong>Small touches:</strong> the hoop drifts on <code>cos(osc)</code>, the ball leaves a dotted trail, and holding a key works because <code>keyDown</code>/<code>keyUp</code> set flags that a 20 ms timer polls.</p>
+      <p class="callout">It plays exactly as on CodeHS, quirks included. <code>playing == true</code> compares instead of assigns, so pressing Space again mid-flight starts another physics timer and the ball speeds up. Timers also pile up across replays.</p>
+    </div>
+  </section>

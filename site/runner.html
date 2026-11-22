@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runner</title>
+<meta name="robots" content="noindex">
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; }
+  body { display: flex; align-items: flex-start; justify-content: center; }
+  /* graphics: match CodeHS (white canvas, 1px #d3d3d3 border), scaled to fit narrow screens */
+  #stage { width: 100%; max-width: 402px; }
+  #stage canvas {
+    display: block; background: #fff; border: 1px solid #d3d3d3;
+    width: 100% !important; height: auto !important; aspect-ratio: 400 / 480;
+    box-sizing: border-box; touch-action: manipulation;
+  }
+  /* console */
+  #console {
+    box-sizing: border-box; width: 100%; min-height: 100%; margin: 0; padding: 14px 16px;
+    font: 14px/1.55 "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #e7e9ee; background: #14161b; white-space: pre-wrap; word-break: break-word;
+  }
+  #console .input { color: #8bd5ff; }
+  #console .error { color: #ff8f8f; }
+  .crash { position: fixed; left: 8px; right: 8px; bottom: 8px; margin: 0; padding: 8px 10px; border-radius: 6px;
+    font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; background: #3a1214; color: #ffd6d6; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<script>
+  // Which original to load, and which runtime it needs. The program file
+  // itself is loaded unchanged from /programs/<slug>/default.js.
+  (function () {
+    var KINDS = {
+      'funni-cube': 'graphics',
+      'bucketballs': 'graphics',
+      'overengineered-calculatoe': 'console'
+    };
+    var slug = new URLSearchParams(location.search).get('p');
+    var kind = KINDS[slug];
+    if (!kind) { document.body.textContent = 'Unknown program.'; return; }
+
+    if (kind === 'graphics') {
+      document.documentElement.style.overflow = 'hidden';
+      var stage = document.createElement('div'); stage.id = 'stage'; document.body.appendChild(stage);
+      window.addEventListener('error', function (e) {
+        var pre = document.createElement('pre'); pre.className = 'crash';
+        pre.textContent = (e.error && e.error.name ? e.error.name + ': ' + e.error.message : e.message);
+        document.body.appendChild(pre);
+      });
+    } else {
+      var pre = document.createElement('pre'); pre.id = 'console'; pre.setAttribute('aria-live', 'polite');
+      document.body.appendChild(pre);
+    }
+
+    function load(src, then) {
+      var s = document.createElement('script');
+      // The frame is sandboxed (opaque origin), so load scripts with CORS so
+      // error messages aren't masked as "Script error.".
+      s.src = src; s.async = false; s.crossOrigin = 'anonymous';
+      if (then) s.onload = then;
+      document.body.appendChild(s);
+    }
+    load('runtime/codehs-' + kind + '.js', function () {
+      load('programs/' + slug + '/default.js');
+    });
+  })();
+</script>
+</body>
+</html>

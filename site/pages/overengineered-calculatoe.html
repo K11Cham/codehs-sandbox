@@ -1,0 +1,39 @@
+<!-- meta: title=overengineered-calculatoe | desc=An arithmetic lexer, recursive-descent parser and tree-walking interpreter Kylar wrote by hand on CodeHS. Type an expression and run it. -->
+  <section class="run" aria-labelledby="run-h">
+    <div class="stage">
+      <h2 id="run-h" class="skip">Run the calculator</h2>
+      <form class="calc" id="calc">
+        <label for="expr" class="skip">Expression</label>
+        <input id="expr" name="expr" value="2^3^2 - (1 + 2) * -3" autocomplete="off" spellcheck="false" inputmode="text" aria-describedby="calc-help">
+        <button class="btn primary" type="submit">Run</button>
+      </form>
+      <iframe id="screen" class="screen console" title="Calculator console output" sandbox="allow-scripts"></iframe>
+      <p class="hint" id="calc-help" style="font-size:13px;color:var(--ink-3);margin:10px 0 0">On CodeHS, <code>readLine</code> pops up a prompt. Here, what you type goes to that same call, and the program runs fresh each time.</p>
+      <div class="examples" aria-label="Example expressions">
+        <button type="button">2^3^2</button>
+        <button type="button">-2^2</button>
+        <button type="button">2^-1</button>
+        <button type="button">(1 + 2) * 3 - 4 / 8</button>
+        <button type="button">10 / (5 - 5)</button>
+        <button type="button">1.5.2</button>
+        <button type="button">2 * (3</button>
+        <button type="button">7 % 2</button>
+      </div>
+    </div>
+    <div class="prose">
+      <h2>What it does</h2>
+      <p>It reads one line of arithmetic, then <strong>lexes</strong> it into tokens, <strong>parses</strong> the tokens into a syntax tree, and <strong>interprets</strong> the tree to get the answer. It handles integers and decimals, <code>+ − * / ^</code>, parentheses and unary signs.</p>
+
+      <h2>The interesting idea</h2>
+      <p><strong>Recursive descent, with one function per precedence level.</strong> Lower-precedence functions call higher ones, so the tree comes out the right shape without any precedence table:</p>
+      <ul>
+        <li><code>expression</code>: <code>+</code> and <code>−</code>, looping left to right (left-associative)</li>
+        <li><code>term</code>: <code>*</code> and <code>/</code>, also a left-to-right loop</li>
+        <li><code>unary</code>: a leading <code>+</code> or <code>−</code>, which calls itself so <code>--3</code> works</li>
+        <li><code>exponent</code>: <code>^</code>, whose right side goes back up to <code>unary</code>. That makes <code>2^3^2</code> mean <code>2^(3^2) = 512</code>, and lets <code>2^-1</code> parse.</li>
+        <li><code>factor</code>: a number, or a whole parenthesised <code>expression</code></li>
+      </ul>
+      <p>Because <code>unary</code> sits above <code>exponent</code>, <code>-2^2</code> is <code>-(2^2) = -4</code>, the same convention mathematicians use. The lexer is a <code>switch (true)</code> over character tests. The parser uses the classic <code>peek</code>/<code>eat</code> pair and checks for <code>EOF</code> so trailing junk is a syntax error. The interpreter is a recursive <code>evaluate(node)</code>.</p>
+      <p class="callout">Error messages are the program’s own, rude ones included. Try <code>1.5.2</code> or <code>7 % 2</code>.</p>
+    </div>
+  </section>

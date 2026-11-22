@@ -1,0 +1,10 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/programs/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/runtime/*
+  Access-Control-Allow-Origin: *
